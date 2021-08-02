@@ -1,4 +1,4 @@
-const jsonUrl = 'https://api.kcg.gov.tw/api/service/Get/9c8e1450-e833-499c-8320-29b36b7ace5c';
+const jsonUrl = 'https://raw.githubusercontent.com/hexschool/KCGTravel/master/datastore_search.json';
 const content = document.getElementById('content');
 const pageid = document.getElementById('pageid');
 let jsonData = {};
@@ -7,7 +7,7 @@ fetch(jsonUrl, {method: 'get'})
   .then((response) => {
   return response.json();
 }).then((data) => {
-  jsonData = data.data.XML_Head.Infos.Info;
+  jsonData = data.result.records;
   console.log(jsonData)
   pagination(jsonData, 1);
 })
