@@ -21,6 +21,7 @@
     </ol>
   
     <div class="row" id="content">
+      <card v-for="(spot, key) in currentData" :key="key" :item="spot"></card>
     </div>
     <div class="d-flex justify-content-center mt-4">
       <nav aria-label="Page navigation example">
