@@ -18,40 +18,8 @@ const app = Vue.createApp({
       })
 
     },
-    
-    pageBtn (page){
-      let str = '';
-      const total = page.pageTotal;
-      
-      if(page.hasPage) {
-        str += `<li class="page-item"><a class="page-link" href="#" data-page="${Number(page.currentPage) - 1}">Previous</a></li>`;
-      } else {
-        str += `<li class="page-item disabled"><span class="page-link">Previous</span></li>`;
-      }
-      
-    
-      for(let i = 1; i <= total; i++){
-        if(Number(page.currentPage) === i) {
-          str +=`<li class="page-item active"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`;
-        } else {
-          str +=`<li class="page-item"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`;
-        }
-      };
-    
-      if(page.hasNext) {
-        str += `<li class="page-item"><a class="page-link" href="#" data-page="${Number(page.currentPage) + 1}">Next</a></li>`;
-      } else {
-        str += `<li class="page-item disabled"><span class="page-link">Next</span></li>`;
-      }
-    
-      const pageid = document.getElementById('pageid');
-      pageid.innerHTML = str;
-    },
 
-    switchPage(e){
-      e.preventDefault();
-      if(e.target.nodeName !== 'A') return;
-      const page = e.target.dataset.page;
+    onPageClicked(page){ 
       this.currentPage = page;
     }
   },
@@ -62,6 +30,13 @@ const app = Vue.createApp({
       let end = this.currentPage * this.perPage;
 
       return this.jsonData.slice(begin, end);
+    },
+
+    pageStatus() {
+      return {
+        currentPage: this.currentPage,
+        pageCount: Math.ceil(this.jsonData.length / this.perPage)
+      }
     }
   },
 
@@ -91,4 +66,29 @@ app.component("card", {
   </div>
 </div>`
 });
+
+app.component("page", {
+  props: ['pageInfo'],
+  methods: {
+    onClick(pageNum) {
+      this.$emit("emit-click", pageNum);
+    }
+  },
+
+  template: 
+  `<ul class="pagination" id="pageid">
+    <li class="page-item" :disabled="pageInfo.currentPage === 1">
+      <a class="page-link" href="#" @click.prevent="onClick(pageInfo.currentPage - 1)">Previous</a>
+    </li>
+    <li class="page-item" :active="pageInfo.currentPage === page"
+        v-for="page in pageInfo.pageCount" :key="page">
+        <a class="page-link" href="#" @click.prevent="onClick(page)">{{ page }}</a>
+    </li>
+    <li class="page-item" :disabled="pageInfo.currentPage === pageInfo.pageCount">
+      <a class="page-link" href="#" @click.prevent="onClick(pageInfo.currentPage + 1)">Next</a>
+    </li>
+  </ul>
+`
+});
+
 app.mount('#app');
