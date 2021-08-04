@@ -24,11 +24,11 @@ const app = Vue.createApp({
       
       // 設定要顯示在畫面上的資料數量
       // 預設每一頁只顯示 20 筆資料。
-      const perpage = 20;
+      const perPage = 20;
       
       // page 按鈕總數量公式 總資料數量 / 每一頁要顯示的資料
       // 這邊要注意，因為有可能會出現餘數，所以要無條件進位。
-      const pageTotal = Math.ceil(dataTotal / perpage);
+      const pageTotal = Math.ceil(dataTotal / perPage);
       
       // 當前頁數，對應現在當前頁數
       let currentPage = nowPage;
@@ -42,8 +42,8 @@ const app = Vue.createApp({
       }
     
       // 由前面可知 最小數字為 6 ，所以用答案來回推公式。
-      const minData = (currentPage * perpage) - perpage + 1 ;
-      const maxData = (currentPage * perpage) ;
+      const minData = (currentPage * perPage) - perPage + 1 ;
+      const maxData = (currentPage * perPage) ;
       
         
       console.log("TEST  currentPage: ", currentPage); // todo
